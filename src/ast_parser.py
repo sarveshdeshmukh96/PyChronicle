@@ -40,7 +40,6 @@ class ASTParser:
         for node in ast.walk(tree):
             print(type(node).__name__)
 
-
     def detect_assignments(self):
         """Detect variable assignments."""
         tree = self.parse()
@@ -66,7 +65,16 @@ class ASTParser:
 
                         print("-" * 30)
 
+    def count_nodes(self):
+        """Count total AST nodes."""
+        tree = self.parse()
 
+        total_nodes = sum(1 for _ in ast.walk(tree))
+
+        print("\n" + "=" * 60)
+        print("AST Statistics")
+        print("=" * 60)
+        print(f"Total AST Nodes: {total_nodes}")
 
 if __name__ == "__main__":
     parser = ASTParser("sample_programs/sample.py")
@@ -74,3 +82,5 @@ if __name__ == "__main__":
     parser.print_ast()
     parser.walk_ast()
     parser.detect_assignments()
+    parser.count_nodes()
+
