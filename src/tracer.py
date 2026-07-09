@@ -1,15 +1,38 @@
 import sys
 
+
 def trace_function(frame, event, arg):
-    print(f"Event: {event}, Function: {frame.f_code.co_name}, Line: {frame.f_lineno}")
+    """
+    Trace function that prints execution details.
+    """
+    print(
+        f"Event: {event}, "
+        f"Function: {frame.f_code.co_name}, "
+        f"Line: {frame.f_lineno}"
+    )
     return trace_function
 
-def greet():
-    print("Hello")
-    print("Welcome to PyChronicle!")
 
-sys.settrace(trace_function)
+def sample_function():
+    """
+    Simple function to demonstrate tracing.
+    """
+    a = 10
+    b = 20
+    c = a + b
+    print(f"Sum = {c}")
 
-greet()
 
-sys.settrace(None)
+if __name__ == "__main__":
+    print("=" * 50)
+    print("PyChronicle - Execution Tracer Demo")
+    print("=" * 50)
+
+    # Start tracing
+    sys.settrace(trace_function)
+
+    # Execute sample function
+    sample_function()
+
+    # Stop tracing
+    sys.settrace(None)
