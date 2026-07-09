@@ -76,11 +76,11 @@ class ASTParser:
         print("=" * 60)
         print(f"Total AST Nodes: {total_nodes}")
 
-
 if __name__ == "__main__":
-    parser = ASTParser("sample.py")
+    parser = ASTParser("sample_programs/sample.py")
 
     parser.print_ast()
     parser.walk_ast()
     parser.detect_assignments()
     parser.count_nodes()
+
