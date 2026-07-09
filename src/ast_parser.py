@@ -69,7 +69,7 @@ class ASTParser:
 
 
 if __name__ == "__main__":
-    parser = ASTParser("sample.py")
+    parser = ASTParser("sample_programs/sample.py")
 
     parser.print_ast()
     parser.walk_ast()
