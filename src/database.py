@@ -16,7 +16,7 @@ class Database:
                 run_at TEXT
             )
         """)
-        self.cursor.execuute("""
+        self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS events (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 session_id INTEGER,
