@@ -36,3 +36,22 @@ class Database:
         )
         self.connection.commit()
         return self.cursor.lastrowid
+    
+    def save_event(self, session_id: int, line_no: int, event_type: str, variables: dict):
+        self.cursor.execute(
+            "INSERT INTO events (session_id, line_no, event_type, variables) VALUES (?, ?, ?, ?)",
+            (session_id, line_no, event_type, json.dumps(variables))
+        )
+        self.connection.commit()
+
+    def get_all_sessions(self):
+        self.cursor.execute("SELECT * FROM sessions ORDER BY run_at DESC")
+        return self.cursor.fetchall()
+    
+    def get_events(self, session_id: int):
+        self.cursor.execute(
+            "SELECT * FROM events WHERE session_id = ? ORDER BY id ASC",
+            (session_id,)
+        )
+        return self.cursor.fetchall()
+    
