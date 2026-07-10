@@ -27,3 +27,12 @@ class Database:
                 )
             """)
         self.connection.commit()
+
+    def start_session(self, file_name: str) -> int:
+        run_at = datetime.now().isoformat()
+        self.cursor.execute(
+            "INSERT INTO sessions (file_name, run_at) VALUES (?, ?)",
+            (file_name, run_at)
+        )
+        self.connection.commit()
+        return self.cursor.lastrowid
