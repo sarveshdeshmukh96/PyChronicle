@@ -11,7 +11,7 @@ PyChronicle is a developer tool that records the execution history of Python pro
 - AST (`ast`)
 - `sys.settrace`
 - SQLite
-- Textual
+- Textual CSS
 - Typer
 
 ## Team
