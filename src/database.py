@@ -55,3 +55,33 @@ class Database:
         )
         return self.cursor.fetchall()
     
+    def close(self):
+        self.connection.close()
+
+if __name__ == "__main__":
+    # Test script to verify database functionality
+    print("Testing database implementation...")
+    db = Database("test_chronicle.db")
+    
+    # 1. Start a session
+    sess_id = db.start_session("sample_programs/sample.py")
+    print(f"Started session with ID: {sess_id}")
+    
+    # 2. Save some sample events
+    db.save_event(sess_id, 10, "line", {"a": 10})
+    db.save_event(sess_id, 11, "line", {"a": 10, "b": 20})
+    db.save_event(sess_id, 12, "return", {"result": 30})
+    print("Saved sample events.")
+    
+    # 3. Retrieve sessions
+    sessions = db.get_all_sessions()
+    print(f"All Sessions: {sessions}")
+    
+    # 4. Retrieve events
+    events = db.get_events(sess_id)
+    print(f"Events in session {sess_id}:")
+    for event in events:
+        print(f"  Line {event[2]} ({event[3]}): {event[4]}")
+        
+    db.close()
+    print("Test complete and database closed.")
