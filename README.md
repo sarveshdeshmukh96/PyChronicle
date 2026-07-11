@@ -50,3 +50,15 @@ Run the project:
 
 ```bash
 python src/main.py
+
+## Project Structure
+
+PyChronicle/
+│── sample_programs/
+│── src/
+│   ├── ast_parser.py
+│   ├── database.py
+│   ├── main.py
+│   ├── tracer.py
+│   ├── ui.py
+│   └── utils.py
