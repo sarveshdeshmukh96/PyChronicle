@@ -66,3 +66,15 @@ PyChronicle/
 ## Installation
 
 pip install -r requirements.txt
+
+## JSON Output
+
+The parser can export analysis results as:
+
+- analysis_report.json
+
+The report contains:
+
+- Total AST nodes
+- Variable assignments
+- Analysis summary
