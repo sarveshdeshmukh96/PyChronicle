@@ -35,3 +35,11 @@ PyChronicle is a developer tool that records the execution history of Python pro
 - Development environment setup completed.
 - Project dependencies installed successfully.
 - Ready to start implementation.
+
+## Features
+
+- AST Explorer
+- Variable Assignment Detection
+- AST Node Counter
+- JSON Report Export
+- Interactive CLI
