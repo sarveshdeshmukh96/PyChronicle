@@ -22,3 +22,8 @@ PyChronicle is a developer tool that records the execution history of Python pro
 
 ## Status
 🚧 Internship Project - Under Development
+## Future Improvements
+
+- Add filtering for execution history.
+- Export traces to CSV.
+- Improve terminal interface.
