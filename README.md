@@ -43,3 +43,10 @@ PyChronicle is a developer tool that records the execution history of Python pro
 - AST Node Counter
 - JSON Report Export
 - Interactive CLI
+
+## Usage
+
+Run the project:
+
+```bash
+python src/main.py
