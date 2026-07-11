@@ -62,3 +62,7 @@ PyChronicle/
 │   ├── tracer.py
 │   ├── ui.py
 │   └── utils.py
+
+## Installation
+
+pip install -r requirements.txt
