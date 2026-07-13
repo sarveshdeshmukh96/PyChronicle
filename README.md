@@ -11,7 +11,7 @@ PyChronicle is a developer tool that records the execution history of Python pro
 - AST (`ast`)
 - `sys.settrace`
 - SQLite
-- Textual
+- Textual CSS
 - Typer
 
 ## Team
@@ -23,8 +23,58 @@ PyChronicle is a developer tool that records the execution history of Python pro
 ## Status
 🚧 Internship Project - Under Development
 
+## Recent Updates
+
+- Added AST Explorer
+- Added assignment detection
+- Added AST node statistics
+- Improved project development workflow
+
 ## Development Status
 
 - Development environment setup completed.
 - Project dependencies installed successfully.
 - Ready to start implementation.
+
+## Features
+
+- AST Explorer
+- Variable Assignment Detection
+- AST Node Counter
+- JSON Report Export
+- Interactive CLI
+
+## Usage
+
+Run the project:
+
+```bash
+python src/main.py
+
+## Project Structure
+
+PyChronicle/
+│── sample_programs/
+│── src/
+│   ├── ast_parser.py
+│   ├── database.py
+│   ├── main.py
+│   ├── tracer.py
+│   ├── ui.py
+│   └── utils.py
+
+## Installation
+
+pip install -r requirements.txt
+
+## JSON Output
+
+The parser can export analysis results as:
+
+- analysis_report.json
+
+The report contains:
+
+- Total AST nodes
+- Variable assignments
+- Analysis summary

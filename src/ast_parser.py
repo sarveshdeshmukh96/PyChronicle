@@ -1,4 +1,5 @@
 import ast
+import json
 from pathlib import Path
 
 
@@ -75,7 +76,44 @@ class ASTParser:
         print("AST Statistics")
         print("=" * 60)
         print(f"Total AST Nodes: {total_nodes}")
+    
+    def export_report(self, filename="analysis_report.json"):
+        """Export AST analysis report to JSON."""
 
+        tree = self.parse()
+
+        assignments = []
+
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Assign):
+                for target in node.targets:
+                    if isinstance(target, ast.Name):
+
+                        if isinstance(node.value, ast.Constant):
+                            value = node.value.value
+
+                        elif isinstance(node.value, ast.BinOp):
+                            value = "Binary Operation"
+
+                        else:
+                            value = type(node.value).__name__
+
+                        assignments.append({
+                            "variable": target.id,
+                            "value": value
+                        })
+
+        report = {
+            "file": str(self.file_path),
+            "total_nodes": sum(1 for _ in ast.walk(tree)),
+            "assignments": assignments
+        }
+
+        with open(filename, "w", encoding="utf-8") as f:
+            json.dump(report, f, indent=4)
+
+        print(f"\nReport exported successfully -> {filename}")
+        
 if __name__ == "__main__":
     parser = ASTParser("sample_programs/sample.py")
 
@@ -83,4 +121,4 @@ if __name__ == "__main__":
     parser.walk_ast()
     parser.detect_assignments()
     parser.count_nodes()
-
+    parser.export_report()
