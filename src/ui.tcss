@@ -1,0 +1,47 @@
+Screen {
+    align: center middle;
+    background: #1e1e2e;
+}
+
+Vertical {
+    width: 60;
+    height: auto;
+    padding: 1 2;
+    border: round cyan;
+    background: #313244;
+}
+
+#title {
+    width: 100%;
+    content-align: center middle;
+    text-style: bold;
+    color: cyan;
+    margin-bottom: 1;
+}
+
+Button {
+    width: 100%;
+    margin: 1 0;
+}
+
+Button:hover {
+    background: cyan;
+    color: black;
+}
+
+#status {
+    width: 100%;
+    margin-top: 1;
+    content-align: center middle;
+    color: green;
+}
+
+Header {
+    background: cyan;
+    color: black;
+}
+
+Footer {
+    background: cyan;
+    color: black;
+}

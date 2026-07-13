@@ -7,23 +7,88 @@ An AST-Powered Time-Travel Debugger built using Python.
 PyChronicle is a developer tool that records the execution history of Python programs. It uses Python's `ast` module and `sys.settrace` to capture variable changes during execution, stores them in SQLite, and allows developers to inspect past program states through a terminal-based interface.
 
 ## Technologies
+
 - Python
 - AST (`ast`)
 - `sys.settrace`
 - SQLite
-- Textual
+- Textual CSS
 - Typer
 
 ## Team
+
 - Sarvesh Deshmukh
 - Santan Kumar
 - Bheemsetti Vijayalaxmi
 - Yaduraj Singh Yadav
 
 ## Status
+
 🚧 Internship Project - Under Development
+
+## Recent Updates
+
+- Added AST Explorer
+- Added assignment detection
+- Added AST node statistics
+- Improved project development workflow
+
+## Development Status
+
+- Development environment setup completed.
+- Project dependencies installed successfully.
+- Ready to start implementation.
+
+## Features
+
+- AST Explorer
+- Variable Assignment Detection
+- AST Node Counter
+- JSON Report Export
+- Interactive CLI
+
 ## Future Improvements
 
 - Add filtering for execution history.
 - Export traces to CSV.
 - Improve terminal interface.
+- Add execution history viewer.
+- Improve UI and overall user experience.
+
+## Project Structure
+
+```
+PyChronicle/
+│── sample_programs/
+│── src/
+│   ├── ast_parser.py
+│   ├── database.py
+│   ├── main.py
+│   ├── tracer.py
+│   ├── ui.py
+│   └── utils.py
+```
+
+## Installation
+
+```bash
+pip install -r requirements.txt
+```
+
+## Usage
+
+```bash
+python src/main.py
+```
+
+## JSON Output
+
+The parser can export:
+
+- analysis_report.json
+
+The report contains:
+
+- Total AST nodes
+- Variable assignments
+- Analysis summary
