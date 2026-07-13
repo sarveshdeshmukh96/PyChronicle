@@ -1,130 +1,269 @@
 import sqlite3
 import json
 from datetime import datetime
+from pathlib import Path
+
+from loguru import logger
 
 
 class Database:
-    """Handles SQLite database operations for PyChronicle."""
+    """
+    Database Manager for PyChronicle.
+    Handles SQLite operations.
+    """
 
-    def __init__(self, db_path: str = "pychronicle.db"):
-        """Initialize database connection and create tables."""
-        self.connection = sqlite3.connect(db_path)
+    def __init__(self, db_path="pychronicle.db"):
+
+        self.db_path = Path(db_path)
+
+        self.connection = sqlite3.connect(self.db_path)
+
+        self.connection.row_factory = sqlite3.Row
+
         self.cursor = self.connection.cursor()
+
         self.create_tables()
 
+        logger.success("Database Connected")
+
     def create_tables(self):
-        """Create required database tables if they don't exist."""
+        """
+        Create required tables.
+        """
 
         self.cursor.execute("""
-            CREATE TABLE IF NOT EXISTS sessions (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                file_name TEXT NOT NULL,
-                run_at TEXT NOT NULL
-            )
+        CREATE TABLE IF NOT EXISTS sessions(
+
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+            file_name TEXT NOT NULL,
+
+            run_at TEXT NOT NULL
+
+        )
         """)
 
         self.cursor.execute("""
-            CREATE TABLE IF NOT EXISTS events (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                session_id INTEGER NOT NULL,
-                line_no INTEGER,
-                event_type TEXT,
-                variables TEXT,
-                FOREIGN KEY (session_id) REFERENCES sessions(id)
-            )
+        CREATE TABLE IF NOT EXISTS events(
+
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+            session_id INTEGER,
+
+            function_name TEXT,
+
+            line_no INTEGER,
+
+            event_type TEXT,
+
+            variables TEXT,
+
+            FOREIGN KEY(session_id)
+
+            REFERENCES sessions(id)
+
+        )
         """)
 
         self.connection.commit()
 
-    def start_session(self, file_name: str) -> int:
-        """
-        Create a new execution session.
+        logger.info("Tables Ready")
 
-        Returns:
-            int: ID of the newly created session.
-        """
-        run_at = datetime.now().isoformat()
+    def start_session(self, file_name):
+
+        run_time = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
 
         self.cursor.execute(
-            "INSERT INTO sessions (file_name, run_at) VALUES (?, ?)",
-            (file_name, run_at)
+
+            """
+            INSERT INTO sessions(file_name,run_at)
+
+            VALUES(?,?)
+            """,
+
+            (file_name, run_time)
+
         )
 
         self.connection.commit()
-        return self.cursor.lastrowid
+
+        session_id = self.cursor.lastrowid
+
+        logger.success(f"Session Created : {session_id}")
+
+        return session_id
 
     def save_event(
+
         self,
-        session_id: int,
-        line_no: int,
-        event_type: str,
-        variables: dict
+
+        session_id,
+
+        function_name,
+
+        line_no,
+
+        event_type,
+
+        variables,
+
     ):
-        """
-        Save an execution event to the database.
-        """
 
         self.cursor.execute(
+
             """
             INSERT INTO events
-            (session_id, line_no, event_type, variables)
-            VALUES (?, ?, ?, ?)
-            """,
+
             (
+
                 session_id,
+
+                function_name,
+
                 line_no,
+
                 event_type,
-                json.dumps(variables)
+
+                variables
+
             )
+
+            VALUES(?,?,?,?,?)
+
+            """,
+
+            (
+
+                session_id,
+
+                function_name,
+
+                line_no,
+
+                event_type,
+
+                json.dumps(
+
+                    variables,
+
+                    indent=4,
+
+                    default=str
+
+                )
+
+            )
+
         )
 
         self.connection.commit()
 
-    def get_all_sessions(self):
-        """Return all execution sessions."""
+    def get_sessions(self):
 
         self.cursor.execute(
-            "SELECT * FROM sessions ORDER BY run_at DESC"
-        )
 
-        return self.cursor.fetchall()
-
-    def get_events(self, session_id: int):
-        """Return all events for a given session."""
-
-        self.cursor.execute(
             """
             SELECT *
-            FROM events
-            WHERE session_id = ?
-            ORDER BY id ASC
-            """,
-            (session_id,)
+
+            FROM sessions
+
+            ORDER BY id DESC
+
+            """
         )
 
         return self.cursor.fetchall()
 
+    def get_events(self, session_id):
+
+        self.cursor.execute(
+
+            """
+            SELECT *
+
+            FROM events
+
+            WHERE session_id=?
+
+            ORDER BY id ASC
+
+            """,
+
+            (session_id,)
+
+        )
+
+        return self.cursor.fetchall()
+
+    def delete_session(self, session_id):
+
+        self.cursor.execute(
+
+            "DELETE FROM events WHERE session_id=?",
+
+            (session_id,)
+
+        )
+
+        self.cursor.execute(
+
+            "DELETE FROM sessions WHERE id=?",
+
+            (session_id,)
+
+        )
+
+        self.connection.commit()
+
+        logger.warning(
+
+            f"Session {session_id} deleted."
+
+        )
+
     def close(self):
-        """Close the database connection."""
+
         self.connection.close()
+
+        logger.info("Database Closed")
 
 
 if __name__ == "__main__":
+
     db = Database()
 
-    session_id = db.start_session("sample_programs/sample.py")
+    session = db.start_session("sample_programs/sample.py")
 
     db.save_event(
-        session_id,
+
+        session,
+
+        "<module>",
+
         1,
+
         "line",
-        {"x": 10, "y": 20}
+
+        {
+
+            "x": 10,
+
+            "y": 20
+
+        }
+
     )
 
-    print("Sessions:")
-    print(db.get_all_sessions())
+    print()
 
-    print("\nEvents:")
-    print(db.get_events(session_id))
+    print("Sessions")
+
+    print(db.get_sessions())
+
+    print()
+
+    print("Events")
+
+    print(db.get_events(session))
 
     db.close()

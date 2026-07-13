@@ -218,3 +218,14 @@ __marimo__/
 .streamlit/secrets.toml
 
 analysis_report.json
+# PyChronicle Generated Files
+pychronicle.db
+*.db
+*.sqlite3
+
+# VS Code
+.vscode/
+
+# macOS / Windows
+.DS_Store
+Thumbs.db
