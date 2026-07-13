@@ -1,7 +1,10 @@
 import os
+import sys
 from pathlib import Path
 
 from ast_parser import ASTParser
+from database import Database
+from utils import validate_python_file
 
 
 def clear_screen():
@@ -22,6 +25,8 @@ def print_menu():
     print("4. Count AST Nodes")
     print("5. Export JSON Report")
     print("6. Run Complete Analysis")
+    print("7. Run with Execution Tracing")
+    print("8. Show Execution History")
     print("0. Exit")
     print("=" * 60)
 
@@ -52,6 +57,64 @@ def run_complete_analysis(parser):
     print("\nAnalysis completed successfully.")
 
 
+def run_with_tracing(file_path: str):
+    """Run a Python file, trace it, and save execution to the database."""
+
+    if not validate_python_file(file_path):
+        return
+
+    db = Database()
+
+    session_id = db.start_session(file_path)
+
+    print(f"\nSession Started: {session_id}")
+
+    def tracer(frame, event, arg):
+        db.save_event(
+            session_id,
+            frame.f_lineno,
+            event,
+            dict(frame.f_locals),
+        )
+        return tracer
+
+    sys.settrace(tracer)
+
+    with open(file_path, "r", encoding="utf-8") as f:
+        code = f.read()
+
+    exec(compile(code, file_path, "exec"))
+
+    sys.settrace(None)
+
+    db.close()
+
+    print("Execution trace saved successfully.")
+
+
+def show_history():
+    """Display execution history."""
+
+    db = Database()
+
+    sessions = db.get_all_sessions()
+
+    if not sessions:
+        print("\nNo execution history found.")
+    else:
+        print("\nExecution History")
+        print("=" * 60)
+
+        for session in sessions:
+            print(
+                f"Session: {session[0]} | "
+                f"File: {session[1]} | "
+                f"Time: {session[2]}"
+            )
+
+    db.close()
+
+
 def main():
     clear_screen()
 
@@ -70,6 +133,7 @@ def main():
         choice = input("Select an option: ").strip()
 
         try:
+
             if choice == "1":
                 parser.print_ast()
                 pause()
@@ -94,17 +158,24 @@ def main():
                 run_complete_analysis(parser)
                 pause()
 
+            elif choice == "7":
+                run_with_tracing(file_path)
+                pause()
+
+            elif choice == "8":
+                show_history()
+                pause()
+
             elif choice == "0":
                 print("\nThank you for using PyChronicle.")
-                print("Goodbye!")
                 break
 
             else:
-                print("\nInvalid option. Please select a number between 0 and 6.")
+                print("\nInvalid option.")
                 pause()
 
         except Exception as e:
-            print(f"\nAn error occurred: {e}")
+            print(f"\nError: {e}")
             pause()
 
 

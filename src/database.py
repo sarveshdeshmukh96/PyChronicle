@@ -7,7 +7,7 @@ class Database:
     """Handles SQLite database operations for PyChronicle."""
 
     def __init__(self, db_path: str = "pychronicle.db"):
-        """Initialize database connection and create tables."""
+        """Initialize database connection and create required tables."""
         self.connection = sqlite3.connect(db_path)
         self.cursor = self.connection.cursor()
         self.create_tables()
@@ -38,15 +38,22 @@ class Database:
 
     def start_session(self, file_name: str) -> int:
         """
-        Create a new execution session.
+        Start a new execution session.
+
+        Args:
+            file_name: Name of the Python file being analyzed.
 
         Returns:
-            int: ID of the newly created session.
+            Session ID.
         """
+
         run_at = datetime.now().isoformat()
 
         self.cursor.execute(
-            "INSERT INTO sessions (file_name, run_at) VALUES (?, ?)",
+            """
+            INSERT INTO sessions (file_name, run_at)
+            VALUES (?, ?)
+            """,
             (file_name, run_at)
         )
 
@@ -58,10 +65,16 @@ class Database:
         session_id: int,
         line_no: int,
         event_type: str,
-        variables: dict
+        variables: dict,
     ):
         """
-        Save an execution event to the database.
+        Save one execution event.
+
+        Args:
+            session_id: Session ID.
+            line_no: Executed line number.
+            event_type: call / line / return / exception.
+            variables: Dictionary containing variable values.
         """
 
         self.cursor.execute(
@@ -74,8 +87,8 @@ class Database:
                 session_id,
                 line_no,
                 event_type,
-                json.dumps(variables)
-            )
+                json.dumps(variables),
+            ),
         )
 
         self.connection.commit()
@@ -84,13 +97,17 @@ class Database:
         """Return all execution sessions."""
 
         self.cursor.execute(
-            "SELECT * FROM sessions ORDER BY run_at DESC"
+            """
+            SELECT *
+            FROM sessions
+            ORDER BY run_at DESC
+            """
         )
 
         return self.cursor.fetchall()
 
     def get_events(self, session_id: int):
-        """Return all events for a given session."""
+        """Return all events belonging to a session."""
 
         self.cursor.execute(
             """
@@ -99,10 +116,25 @@ class Database:
             WHERE session_id = ?
             ORDER BY id ASC
             """,
-            (session_id,)
+            (session_id,),
         )
 
         return self.cursor.fetchall()
+
+    def delete_session(self, session_id: int):
+        """Delete a session and its events."""
+
+        self.cursor.execute(
+            "DELETE FROM events WHERE session_id = ?",
+            (session_id,),
+        )
+
+        self.cursor.execute(
+            "DELETE FROM sessions WHERE id = ?",
+            (session_id,),
+        )
+
+        self.connection.commit()
 
     def close(self):
         """Close the database connection."""
@@ -115,10 +147,10 @@ if __name__ == "__main__":
     session_id = db.start_session("sample_programs/sample.py")
 
     db.save_event(
-        session_id,
-        1,
-        "line",
-        {"x": 10, "y": 20}
+        session_id=session_id,
+        line_no=1,
+        event_type="line",
+        variables={"x": 10, "y": 20},
     )
 
     print("Sessions:")
