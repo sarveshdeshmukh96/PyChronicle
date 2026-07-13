@@ -4,61 +4,99 @@
 
 ---
 
+# 🚧 Project Status
+
+**Status:** Active Development
+
+### Latest Features
+
+- ✅ Interactive CLI
+- ✅ AST Analysis
+- ✅ Execution Tracer
+- ✅ SQLite Database
+- ✅ JSON Report Generation
+- ✅ Execution History
+
+---
+
 # 📖 Project Overview
 
-Debugging is an important part of software development. Traditional debuggers only show the current execution state.
+Debugging is one of the most important phases of software development.
 
-PyChronicle aims to provide execution history by combining:
+PyChronicle combines multiple Python technologies to provide a better understanding of program execution.
 
-- Abstract Syntax Tree (AST) Analysis
+The project integrates:
+
+- Abstract Syntax Tree (AST)
 - Execution Tracing
-- SQLite Database Storage
+- SQLite Database
 - JSON Report Generation
+- Interactive CLI
 
-This allows developers to inspect how variables change during execution.
+This helps developers inspect how their Python code executes and how variables change over time.
 
 ---
 
 # 🎯 Objectives
 
 - Parse Python source code using AST
-- Detect variables, functions, imports, and classes
-- Trace program execution
+- Detect variables, functions, imports and classes
+- Count AST nodes
+- Execute Python programs with tracing
 - Store execution history
-- Generate JSON analysis reports
-- Provide an easy-to-use interface
+- Generate JSON reports
+- Provide an interactive command-line interface
 
 ---
 
 # ✨ Features
 
-✅ Load Python Source File
+- ✅ Load Python Source File
+- ✅ Parse Abstract Syntax Tree
+- ✅ Detect Variable Assignments
+- ✅ Count AST Nodes
+- ✅ Export JSON Analysis Report
+- ✅ Execution Tracing using `sys.settrace()`
+- ✅ SQLite Database Storage
+- ✅ View Previous Execution History
+- ✅ Interactive CLI
+- ✅ Error Handling & Input Validation
 
-✅ Parse Abstract Syntax Tree (AST)
+---
 
-✅ Detect Variable Assignments
+# 🏗 Project Architecture
 
-✅ Count AST Nodes
-
-✅ Export Analysis Report to JSON
-
-✅ Execution Tracing using `sys.settrace()`
-
-✅ Store Execution History in SQLite
-
-✅ View Previous Execution Sessions
+```
+Python Source File
+        │
+        ▼
+    AST Parser
+        │
+        ▼
+ Execution Tracer
+        │
+        ▼
+ SQLite Database
+        │
+        ▼
+ JSON Report
+        │
+        ▼
+ Interactive CLI
+```
 
 ---
 
 # 🛠 Technologies Used
 
 - Python 3.13
-- AST Module
+- AST
 - SQLite3
-- Textual
-- Rich
-- Loguru
 - JSON
+- pathlib
+- Rich
+- Textual
+- Loguru
 
 ---
 
@@ -103,21 +141,21 @@ Move into the project
 cd PyChronicle
 ```
 
-Create a virtual environment
+Create virtual environment
 
 ```bash
 python -m venv .venv
 ```
 
-Activate it
+Activate environment
 
-Windows
+### Windows
 
 ```bash
 .venv\Scripts\activate
 ```
 
-Linux / macOS
+### Linux / macOS
 
 ```bash
 source .venv/bin/activate
@@ -133,17 +171,54 @@ pip install -r requirements.txt
 
 # ▶ Running the Project
 
-Run the application
+Run CLI
 
 ```bash
 python src/main.py
 ```
 
-Run the Textual UI
+Run Textual UI
 
 ```bash
 python src/ui.py
 ```
+
+---
+
+# 🔄 Project Workflow
+
+```
+Load Python File
+        │
+        ▼
+Parse AST
+        │
+        ▼
+Analyze Source Code
+        │
+        ▼
+Run Execution Tracer
+        │
+        ▼
+Save Execution History
+        │
+        ▼
+Generate JSON Report
+```
+
+---
+
+# 🔍 AST Analysis Supports
+
+- Variables
+- Functions
+- Classes
+- Imports
+- Loops
+- If Statements
+- Expressions
+- Try / Except
+- Assignments
 
 ---
 
@@ -163,42 +238,113 @@ Executed   : 13-07-2026
 
 ---
 
+# 📄 Sample JSON Report
+
+```json
+{
+    "file": "sample.py",
+    "total_nodes": 84,
+    "assignments": 12,
+    "functions": 3,
+    "classes": 1
+}
+```
+
+---
+
 # 💾 Database
 
-The project automatically creates
+PyChronicle automatically creates
 
 ```
 pychronicle.db
 ```
 
-Tables
+Database Tables
 
 - sessions
 - events
 
 ---
 
-# 📄 JSON Report
+# 📦 Dependencies
 
-AST analysis is exported to
-
-```
-analysis_report.json
-```
+- ast
+- sqlite3
+- pathlib
+- json
+- rich
+- textual
+- loguru
 
 ---
 
 # 🚀 Future Enhancements
 
 - Interactive Debugger
-- Time Travel Execution
+- Time Travel Replay
 - Variable State Comparison
+- Breakpoints
 - Search Execution History
 - CSV Export
 - Multi-file Analysis
-- Graphical Timeline
-- Breakpoints
 - Call Graph Visualization
+- GUI Dashboard
+
+---
+
+# 🗺 Roadmap
+
+- [x] AST Parser
+- [x] AST Node Counting
+- [x] Variable Detection
+- [x] Execution Tracer
+- [x] SQLite Storage
+- [x] JSON Export
+- [x] Interactive CLI
+- [ ] GUI Application
+- [ ] Breakpoints
+- [ ] Time Travel Replay
+- [ ] Graph Visualization
+
+---
+
+# 📈 Repository Highlights
+
+- Python Project
+- Team Collaboration
+- Git & GitHub Workflow
+- AST Analysis
+- Execution Tracing
+- SQLite Database
+- JSON Export
+- Interactive CLI
+
+---
+
+# 🤝 Team Contributions
+
+### Sarvesh Deshmukh
+
+- Project Architecture
+- Utilities
+- UI Development
+
+### Santan Kumar
+
+- AST Parser
+- CLI Workflow
+- JSON Report Generation
+- Documentation
+- Merge Conflict Resolution
+
+### Yaduraj Singh Yadav
+
+- SQLite Database
+
+### Bheemsetti Vijayalaxmi
+
+- Execution Tracer
 
 ---
 
@@ -220,3 +366,5 @@ This project is developed for educational and internship purposes.
 # ⭐ PyChronicle
 
 **AST-Powered Time-Travel Debugger for Python**
+
+If you like this project, don't forget to ⭐ the repository.
