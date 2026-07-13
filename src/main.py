@@ -1,181 +1,126 @@
-import os
-import sys
 from pathlib import Path
 
-from ast_parser import ASTParser
-from database import Database
-from utils import validate_python_file
+from controller import PyChronicleController
+from utils import (
+    banner,
+    clear_screen,
+    pause,
+    show_info,
+    show_error,
+    validate_python_file,
+)
 
 
-def clear_screen():
-    os.system("cls" if os.name == "nt" else "clear")
-
-
-def pause():
-    input("\nPress Enter to continue...")
+controller = PyChronicleController()
 
 
 def print_menu():
     print("\n" + "=" * 60)
-    print("         PyChronicle - AST Powered Time-Travel Debugger")
+    print("                    PyChronicle")
     print("=" * 60)
-    print("1. Print AST")
-    print("2. Show AST Nodes")
-    print("3. Detect Variable Assignments")
-    print("4. Count AST Nodes")
-    print("5. Export JSON Report")
-    print("6. Run Complete Analysis")
-    print("7. Run with Execution Tracing")
-    print("8. Show Execution History")
+    print("1. Load Python File")
+    print("2. Parse AST")
+    print("3. Export JSON Report")
+    print("4. Run Execution Tracer")
+    print("5. Show Execution History")
     print("0. Exit")
     print("=" * 60)
 
 
-def get_python_file():
-    while True:
-        file_path = input("\nEnter Python file path (or 'q' to quit): ").strip()
-
-        if file_path.lower() == "q":
-            print("\nExiting PyChronicle...")
-            exit()
-
-        if Path(file_path).exists():
-            return file_path
-
-        print("File not found. Please enter a valid Python file.")
-
-
-def run_complete_analysis(parser):
-    print("\nRunning Complete Analysis...\n")
-
-    parser.print_ast()
-    parser.walk_ast()
-    parser.detect_assignments()
-    parser.count_nodes()
-    parser.export_report()
-
-    print("\nAnalysis completed successfully.")
-
-
-def run_with_tracing(file_path: str):
-    """Run a Python file, trace it, and save execution to the database."""
+def load_python_file():
+    file_path = input("\nEnter Python file path: ").strip()
 
     if not validate_python_file(file_path):
-        return
+        return False
 
-    db = Database()
+    controller.load_file(file_path)
 
-    session_id = db.start_session(file_path)
+    show_info(f"Loaded file: {Path(file_path).name}")
 
-    print(f"\nSession Started: {session_id}")
-
-    def tracer(frame, event, arg):
-        db.save_event(
-            session_id,
-            frame.f_lineno,
-            event,
-            dict(frame.f_locals),
-        )
-        return tracer
-
-    sys.settrace(tracer)
-
-    with open(file_path, "r", encoding="utf-8") as f:
-        code = f.read()
-
-    exec(compile(code, file_path, "exec"))
-
-    sys.settrace(None)
-
-    db.close()
-
-    print("Execution trace saved successfully.")
+    return True
 
 
-def show_history():
-    """Display execution history."""
+def show_execution_history():
+    sessions = controller.get_history()
 
-    db = Database()
-
-    sessions = db.get_all_sessions()
+    print("\n" + "=" * 60)
+    print("                 Execution History")
+    print("=" * 60)
 
     if not sessions:
-        print("\nNo execution history found.")
+        print("No execution history found.")
+
     else:
-        print("\nExecution History")
-        print("=" * 60)
 
         for session in sessions:
-            print(
-                f"Session: {session[0]} | "
-                f"File: {session[1]} | "
-                f"Time: {session[2]}"
-            )
 
-    db.close()
+            print(f"Session ID : {session['id']}")
+            print(f"File       : {session['file_name']}")
+            print(f"Executed   : {session['run_at']}")
+            print("-" * 60)
+
+    pause()
 
 
 def main():
+
     clear_screen()
 
-    print("=" * 60)
-    print("        Welcome to PyChronicle")
-    print("   AST Powered Time-Travel Debugger")
-    print("=" * 60)
-
-    file_path = get_python_file()
-    parser = ASTParser(file_path)
+    banner()
 
     while True:
-        clear_screen()
+
         print_menu()
 
-        choice = input("Select an option: ").strip()
+        choice = input("\nSelect Option : ").strip()
 
         try:
 
             if choice == "1":
-                parser.print_ast()
+
+                load_python_file()
+
                 pause()
 
             elif choice == "2":
-                parser.walk_ast()
+
+                controller.parse_ast()
+
                 pause()
 
             elif choice == "3":
-                parser.detect_assignments()
+
+                controller.export_report()
+
                 pause()
 
             elif choice == "4":
-                parser.count_nodes()
+
+                controller.run_tracer()
+
                 pause()
 
             elif choice == "5":
-                parser.export_report()
-                pause()
 
-            elif choice == "6":
-                run_complete_analysis(parser)
-                pause()
-
-            elif choice == "7":
-                run_with_tracing(file_path)
-                pause()
-
-            elif choice == "8":
-                show_history()
-                pause()
+                show_execution_history()
 
             elif choice == "0":
+
                 print("\nThank you for using PyChronicle.")
+                print("Goodbye!")
+
                 break
 
             else:
-                print("\nInvalid option.")
+
+                show_error("Invalid option. Please choose between 0 and 5.")
+
                 pause()
 
         except Exception as e:
-            print(f"\nError: {e}")
+
+            show_error(str(e))
+
             pause()
 
 
