@@ -363,8 +363,57 @@ This project is developed for educational and internship purposes.
 
 ---
 
-# ⭐ PyChronicle
+# 📌 Known Limitations
 
-**AST-Powered Time-Travel Debugger for Python**
+- Currently supports Python source code analysis only.
+- GUI-based debugging is under development.
+- Multi-file project analysis is not yet implemented.
+- Breakpoint management and time-travel replay features are planned for future releases.
+- Performance optimization for large Python projects is still in progress.
 
-If you like this project, don't forget to ⭐ the repository.
+---
+
+# 🤝 Contributing
+
+Contributions are welcome. To contribute:
+
+1. Fork the repository.
+2. Create a new feature branch.
+3. Make your changes following the project coding standards.
+4. Commit your changes using meaningful commit messages.
+5. Push your branch and create a Pull Request.
+
+---
+
+# 🙌 Acknowledgements
+
+This project was developed as part of the **Infotact Solutions Python Development Internship**.
+
+Special thanks to all team members for their collaboration, code reviews, testing, documentation, and continuous improvements throughout the project.
+
+---
+
+# 👥 Team Members
+
+- **Sarvesh Deshmukh** — Project Architecture, Utilities, UI Development
+- **Santan Kumar** — AST Parser, Interactive CLI, JSON Report Generation, Documentation, Merge Conflict Resolution
+- **Yaduraj Singh Yadav** — SQLite Database Implementation
+- **Bheemsetti Vijayalaxmi** — Execution Tracer Development
+
+---
+
+# 📬 Contact
+
+For bug reports, feature requests, or project-related discussions, please create an issue in the GitHub repository.
+
+---
+
+# ⭐ Support the Project
+
+If you found **PyChronicle** useful, please consider giving this repository a ⭐ on GitHub.
+
+Your support motivates the team to continue improving the project.
+
+---
+
+**PyChronicle — AST-Powered Time-Travel Debugger for Python**
