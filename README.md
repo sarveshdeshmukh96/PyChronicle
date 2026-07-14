@@ -1,102 +1,97 @@
 # 🚀 PyChronicle
 
-**PyChronicle** is an AST-Powered Time-Travel Debugger built using Python. It analyzes Python source code, records execution traces, stores execution history in SQLite, and helps developers understand how a program executes step by step.
+> **AST-Powered Time-Travel Debugger for Python**
+
+PyChronicle is a Python-based debugging and code analysis tool that combines **Abstract Syntax Tree (AST) Analysis**, **Execution Tracing**, **SQLite Storage**, and **JSON Report Generation** to help developers understand how Python programs execute step by step.
 
 ---
 
-# 🚧 Project Status
+## 📌 Project Status
 
-**Status:** Active Development
+**Status:** 🟢 Active Development
 
-### Latest Features
+### Current Features
 
-- ✅ Interactive CLI
 - ✅ AST Analysis
-- ✅ Execution Tracer
+- ✅ Interactive CLI
+- ✅ Execution Tracing
 - ✅ SQLite Database
-- ✅ JSON Report Generation
+- ✅ JSON Report Export
 - ✅ Execution History
 
 ---
 
 # 📖 Project Overview
 
-Debugging is one of the most important phases of software development.
+Debugging complex Python applications can be difficult.
 
-PyChronicle combines multiple Python technologies to provide a better understanding of program execution.
+PyChronicle simplifies debugging by analyzing source code using Python's built-in **AST module**, tracing program execution, storing execution history in **SQLite**, and generating structured **JSON reports** for further analysis.
 
-The project integrates:
-
-- Abstract Syntax Tree (AST)
-- Execution Tracing
-- SQLite Database
-- JSON Report Generation
-- Interactive CLI
-
-This helps developers inspect how their Python code executes and how variables change over time.
+The project provides developers with a better understanding of program structure and execution flow.
 
 ---
 
 # 🎯 Objectives
 
 - Parse Python source code using AST
-- Detect variables, functions, imports and classes
+- Detect variables, functions, classes, and imports
 - Count AST nodes
-- Execute Python programs with tracing
+- Trace program execution
 - Store execution history
-- Generate JSON reports
+- Export analysis reports as JSON
 - Provide an interactive command-line interface
 
 ---
 
 # ✨ Features
 
-- ✅ Load Python Source File
-- ✅ Parse Abstract Syntax Tree
-- ✅ Detect Variable Assignments
-- ✅ Count AST Nodes
-- ✅ Export JSON Analysis Report
-- ✅ Execution Tracing using `sys.settrace()`
-- ✅ SQLite Database Storage
-- ✅ View Previous Execution History
-- ✅ Interactive CLI
+- 📂 Load Python Source Files
+- 🌳 Parse Abstract Syntax Tree (AST)
+- 📊 Count AST Nodes
+- 🔍 Detect Variable Assignments
+- ⚙️ Execution Tracing using `sys.settrace()`
+- 💾 Store Execution History in SQLite
+- 📄 Export Analysis as JSON
+- 🖥 Interactive Command Line Interface
 - ✅ Error Handling & Input Validation
 
 ---
 
-# 🏗 Project Architecture
+# 🏗 Architecture
 
-```
+```text
 Python Source File
         │
         ▼
-    AST Parser
+   AST Parser
         │
         ▼
- Execution Tracer
+Execution Tracer
         │
         ▼
- SQLite Database
+SQLite Database
         │
         ▼
- JSON Report
+JSON Report
         │
         ▼
- Interactive CLI
+Interactive CLI
 ```
 
 ---
 
 # 🛠 Technologies Used
 
-- Python 3.13
-- AST
-- SQLite3
-- JSON
-- pathlib
-- Rich
-- Textual
-- Loguru
+| Technology | Purpose |
+|------------|---------|
+| Python 3.13 | Programming Language |
+| AST | Static Code Analysis |
+| SQLite3 | Database |
+| JSON | Report Generation |
+| pathlib | File Handling |
+| Rich | CLI Output |
+| Textual | Terminal UI |
+| Loguru | Logging |
 
 ---
 
@@ -132,22 +127,20 @@ PyChronicle/
 Clone the repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/<username>/PyChronicle.git
 ```
 
-Move into the project
+Navigate to the project directory
 
 ```bash
 cd PyChronicle
 ```
 
-Create virtual environment
+Create a virtual environment
 
 ```bash
 python -m venv .venv
 ```
-
-Activate environment
 
 ### Windows
 
@@ -155,7 +148,7 @@ Activate environment
 .venv\Scripts\activate
 ```
 
-### Linux / macOS
+### Linux/macOS
 
 ```bash
 source .venv/bin/activate
@@ -185,9 +178,9 @@ python src/ui.py
 
 ---
 
-# 🔄 Project Workflow
+# 🔄 Workflow
 
-```
+```text
 Load Python File
         │
         ▼
@@ -197,10 +190,10 @@ Parse AST
 Analyze Source Code
         │
         ▼
-Run Execution Tracer
+Trace Execution
         │
         ▼
-Save Execution History
+Store in SQLite
         │
         ▼
 Generate JSON Report
@@ -216,13 +209,13 @@ Generate JSON Report
 - Imports
 - Loops
 - If Statements
-- Expressions
-- Try / Except
 - Assignments
+- Expressions
+- Try / Except Blocks
 
 ---
 
-# 📊 Example Output
+# 📊 Sample Output
 
 ```
 Execution History
@@ -242,11 +235,11 @@ Executed   : 13-07-2026
 
 ```json
 {
-    "file": "sample.py",
-    "total_nodes": 84,
-    "assignments": 12,
-    "functions": 3,
-    "classes": 1
+  "file": "sample.py",
+  "total_nodes": 84,
+  "assignments": 12,
+  "functions": 3,
+  "classes": 1
 }
 ```
 
@@ -279,72 +272,64 @@ Database Tables
 
 ---
 
+# 🛣 Roadmap
+
+- ✅ AST Parser
+- ✅ AST Node Counting
+- ✅ Variable Detection
+- ✅ Execution Tracer
+- ✅ SQLite Storage
+- ✅ JSON Export
+- ✅ Interactive CLI
+- ⏳ Breakpoints
+- ⏳ Time Travel Replay
+- ⏳ Graph Visualization
+- ⏳ GUI Dashboard
+- ⏳ Multi-file Analysis
+
+---
+
 # 🚀 Future Enhancements
 
 - Interactive Debugger
+- Breakpoint Support
 - Time Travel Replay
 - Variable State Comparison
-- Breakpoints
-- Search Execution History
-- CSV Export
-- Multi-file Analysis
+- CSV/PDF Report Export
 - Call Graph Visualization
 - GUI Dashboard
-
----
-
-# 🗺 Roadmap
-
-- [x] AST Parser
-- [x] AST Node Counting
-- [x] Variable Detection
-- [x] Execution Tracer
-- [x] SQLite Storage
-- [x] JSON Export
-- [x] Interactive CLI
-- [ ] GUI Application
-- [ ] Breakpoints
-- [ ] Time Travel Replay
-- [ ] Graph Visualization
-
----
-
-# 📈 Repository Highlights
-
-- Python Project
-- Team Collaboration
-- Git & GitHub Workflow
-- AST Analysis
-- Execution Tracing
-- SQLite Database
-- JSON Export
-- Interactive CLI
+- Multi-file Analysis
+- Improved Logging
+- Increased Unit Test Coverage
 
 ---
 
 # 🤝 Team Contributions
 
-### Sarvesh Deshmukh
+## Sarvesh Deshmukh
 
 - Project Architecture
+- Controller Design
 - Utilities
-- UI Development
+- Textual UI Development
 
-### Santan Kumar
+## Santan Kumar
 
 - AST Parser
-- CLI Workflow
+- Interactive CLI
 - JSON Report Generation
-- Documentation
+- Project Documentation
 - Merge Conflict Resolution
 
-### Yaduraj Singh Yadav
+## Yaduraj Singh Yadav
 
 - SQLite Database
+- Database Integration
 
-### Bheemsetti Vijayalaxmi
+## Bheemsetti Vijayalaxmi
 
 - Execution Tracer
+- Trace Management
 
 ---
 
@@ -352,8 +337,8 @@ Database Tables
 
 - Sarvesh Deshmukh
 - Santan Kumar
-- Bheemsetti Vijayalaxmi
 - Yaduraj Singh Yadav
+- Bheemsetti Vijayalaxmi
 
 ---
 
@@ -363,57 +348,8 @@ This project is developed for educational and internship purposes.
 
 ---
 
-# 📌 Known Limitations
+# ⭐ Support
 
-- Currently supports Python source code analysis only.
-- GUI-based debugging is under development.
-- Multi-file project analysis is not yet implemented.
-- Breakpoint management and time-travel replay features are planned for future releases.
-- Performance optimization for large Python projects is still in progress.
+If you found this project useful, consider giving it a ⭐ on GitHub.
 
----
-
-# 🤝 Contributing
-
-Contributions are welcome. To contribute:
-
-1. Fork the repository.
-2. Create a new feature branch.
-3. Make your changes following the project coding standards.
-4. Commit your changes using meaningful commit messages.
-5. Push your branch and create a Pull Request.
-
----
-
-# 🙌 Acknowledgements
-
-This project was developed as part of the **Infotact Solutions Python Development Internship**.
-
-Special thanks to all team members for their collaboration, code reviews, testing, documentation, and continuous improvements throughout the project.
-
----
-
-# 👥 Team Members
-
-- **Sarvesh Deshmukh** — Project Architecture, Utilities, UI Development
-- **Santan Kumar** — AST Parser, Interactive CLI, JSON Report Generation, Documentation, Merge Conflict Resolution
-- **Yaduraj Singh Yadav** — SQLite Database Implementation
-- **Bheemsetti Vijayalaxmi** — Execution Tracer Development
-
----
-
-# 📬 Contact
-
-For bug reports, feature requests, or project-related discussions, please create an issue in the GitHub repository.
-
----
-
-# ⭐ Support the Project
-
-If you found **PyChronicle** useful, please consider giving this repository a ⭐ on GitHub.
-
-Your support motivates the team to continue improving the project.
-
----
-
-**PyChronicle — AST-Powered Time-Travel Debugger for Python**
+Happy Coding! 🚀
