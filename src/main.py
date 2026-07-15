@@ -8,6 +8,8 @@ from utils import (
     show_info,
     show_error,
     validate_python_file,
+    log_info,
+    log_error,
 )
 
 controller = PyChronicleController()
@@ -31,22 +33,27 @@ def load_python_file():
         file_path = input("\nEnter Python file path (or 'q' to quit): ").strip()
 
         if file_path.lower() == "q":
+            log_info("User cancelled file selection.")
             return False
 
         if not file_path:
             show_error("File path cannot be empty.")
+            log_error("Empty file path entered.")
             continue
 
         if not file_path.endswith(".py"):
             show_error("Please select a Python (.py) file.")
+            log_error("Invalid file extension selected.")
             continue
 
         if not validate_python_file(file_path):
+            log_error(f"Invalid file: {file_path}")
             continue
 
         controller.load_file(file_path)
 
         show_info(f"Loaded file: {Path(file_path).name}")
+        log_info(f"Loaded file: {file_path}")
         return True
 
 
@@ -59,6 +66,7 @@ def show_execution_history():
 
     if not sessions:
         print("No execution history found.")
+        log_info("No execution history available.")
     else:
         for session in sessions:
             print(f"Session ID : {session['id']}")
@@ -66,12 +74,16 @@ def show_execution_history():
             print(f"Executed   : {session['run_at']}")
             print("-" * 60)
 
+        log_info("Execution history displayed.")
+
     pause()
 
 
 def main():
     clear_screen()
     banner()
+
+    log_info("Application started.")
 
     valid_choices = {"0", "1", "2", "3", "4", "5"}
 
@@ -82,6 +94,7 @@ def main():
 
         if choice not in valid_choices:
             show_error("Invalid choice! Please select a number between 0 and 5.")
+            log_error(f"Invalid menu option: {choice}")
             pause()
             clear_screen()
             banner()
@@ -95,22 +108,26 @@ def main():
             elif choice == "2":
                 controller.parse_ast()
                 show_info("AST parsed successfully.")
+                log_info("AST parsed successfully.")
                 pause()
 
             elif choice == "3":
                 controller.export_report()
                 show_info("JSON report exported successfully.")
+                log_info("JSON report exported.")
                 pause()
 
             elif choice == "4":
                 controller.run_tracer()
                 show_info("Execution tracer completed successfully.")
+                log_info("Execution tracer completed.")
                 pause()
 
             elif choice == "5":
                 show_execution_history()
 
             elif choice == "0":
+                log_info("Application closed by user.")
                 print("\nThank you for using PyChronicle.")
                 print("Goodbye!")
                 break
@@ -120,6 +137,7 @@ def main():
 
         except Exception as e:
             show_error(str(e))
+            log_error(f"Unhandled exception: {e}")
             pause()
             clear_screen()
             banner()

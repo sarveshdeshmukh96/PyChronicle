@@ -3,36 +3,54 @@ import json
 from pathlib import Path
 from collections import Counter
 
-from loguru import logger
+from utils import log_info, log_error
 
 
 class ASTParser:
     """PyChronicle AST Parser"""
 
     def __init__(self, file_path: str):
-
         self.file_path = Path(file_path)
-
         self.tree = None
 
     def read_source(self):
+        """Read Python source file."""
 
         if not self.file_path.exists():
+            log_error(f"File not found: {self.file_path}")
             raise FileNotFoundError(self.file_path)
 
+        log_info(f"Reading source file: {self.file_path}")
         return self.file_path.read_text(encoding="utf-8")
 
     def parse(self):
+        """Parse Python source into AST."""
 
-        source = self.read_source()
+        try:
+            log_info(f"Parsing AST: {self.file_path}")
 
-        self.tree = ast.parse(source)
+            source = self.read_source()
 
-        logger.success("AST Parsed Successfully")
+            self.tree = ast.parse(source)
 
-        return self.tree
+            log_info("AST parsed successfully.")
+
+            return self.tree
+
+        except SyntaxError as e:
+            log_error(f"Syntax Error: {e}")
+            raise
+
+        except FileNotFoundError as e:
+            log_error(f"File not found: {e}")
+            raise
+
+        except Exception as e:
+            log_error(f"Unexpected Error: {e}")
+            raise
 
     def print_ast(self):
+        """Print AST."""
 
         if self.tree is None:
             self.parse()
@@ -40,6 +58,7 @@ class ASTParser:
         print(ast.dump(self.tree, indent=4))
 
     def get_statistics(self):
+        """Generate AST statistics."""
 
         if self.tree is None:
             self.parse()
@@ -47,11 +66,8 @@ class ASTParser:
         stats = Counter()
 
         assignments = []
-
         functions = []
-
         classes = []
-
         imports = []
 
         for node in ast.walk(self.tree):
@@ -59,51 +75,39 @@ class ASTParser:
             stats[type(node).__name__] += 1
 
             if isinstance(node, ast.Assign):
-
                 for target in node.targets:
-
                     if isinstance(target, ast.Name):
-
                         assignments.append(target.id)
 
             elif isinstance(node, ast.FunctionDef):
-
                 functions.append(node.name)
 
             elif isinstance(node, ast.ClassDef):
-
                 classes.append(node.name)
 
             elif isinstance(node, ast.Import):
-
                 for alias in node.names:
                     imports.append(alias.name)
 
             elif isinstance(node, ast.ImportFrom):
-
                 imports.append(node.module)
 
         report = {
-
             "file": str(self.file_path),
-
             "total_nodes": sum(stats.values()),
-
             "functions": functions,
-
             "classes": classes,
-
             "imports": imports,
-
             "assignments": assignments,
-
-            "node_statistics": dict(stats)
-
+            "node_statistics": dict(stats),
         }
+
+        log_info("AST statistics generated.")
 
         return report
 
     def print_report(self):
+        """Display AST report."""
 
         report = self.get_statistics()
 
@@ -119,34 +123,37 @@ class ASTParser:
         print(f"Assignments : {len(report['assignments'])}")
 
         print("\nFunction Names")
-
         for function in report["functions"]:
             print("-", function)
 
         print("\nClass Names")
-
         for cls in report["classes"]:
             print("-", cls)
 
         print("\nImports")
-
         for module in report["imports"]:
             print("-", module)
 
         print("\nVariables")
-
         for variable in report["assignments"]:
             print("-", variable)
 
+        log_info("AST report displayed.")
+
     def export_json(self, filename="analysis_report.json"):
+        """Export analysis report to JSON."""
 
-        report = self.get_statistics()
+        try:
+            report = self.get_statistics()
 
-        with open(filename, "w", encoding="utf-8") as file:
+            with open(filename, "w", encoding="utf-8") as file:
+                json.dump(report, file, indent=4)
 
-            json.dump(report, file, indent=4)
+            log_info(f"JSON report exported successfully: {filename}")
 
-        logger.success(f"Report exported -> {filename}")
+        except Exception as e:
+            log_error(f"Failed to export JSON report: {e}")
+            raise
 
 
 if __name__ == "__main__":
