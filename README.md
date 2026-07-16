@@ -1,113 +1,77 @@
 # 🚀 PyChronicle
 
-> **AST-Powered Time-Travel Debugger for Python**
+> **An AST-Powered Time-Travel Debugger for Python**
 
 ![Python](https://img.shields.io/badge/Python-3.13-blue?logo=python)
 ![Status](https://img.shields.io/badge/Status-Active-success)
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-orange)
-![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen)
-
-PyChronicle is a Python-based debugging and code analysis tool that combines **Abstract Syntax Tree (AST) Analysis**, **Execution Tracing**, **SQLite Storage**, and **JSON Report Generation** to help developers understand how Python programs execute step by step.
+![Contributions](https://img.shields.io/badge/Contributions-Welcome-brightgreen)
 
 ---
 
-# 📑 Table of Contents
+## 📖 Overview
 
-* Project Overview
-* Features
-* Architecture
-* Technologies
-* Project Structure
-* Installation
-* Usage
-* Workflow
-* Roadmap
-* Future Enhancements
-* Team
-* Contributing
-* License
+**PyChronicle** is an AST-powered Python debugging and code analysis tool that combines **Static Code Analysis** with **Runtime Execution Tracing**.
 
----
-
-# 📖 Project Overview
-
-PyChronicle is an AST-powered debugging and code analysis tool built with Python.
-
-It combines **static code analysis** and **runtime execution tracing** to help developers understand how Python programs work internally.
-
-The project parses Python source code using the built-in **AST module**, traces execution, stores execution history in **SQLite**, and exports analysis reports in **JSON** format.
-
----
-
-# 🎯 Objectives
-
-* Parse Python source code using AST
-* Analyze program structure
-* Trace execution flow
-* Store execution history
-* Generate JSON reports
-* Provide an interactive CLI
-* Simplify debugging
+The project helps developers understand how Python code executes by analyzing its **Abstract Syntax Tree (AST)**, tracing execution, storing runtime history in **SQLite**, and generating structured **JSON reports**.
 
 ---
 
 # ✨ Features
 
-* 🌳 AST Parsing
-* 📊 AST Node Counting
-* 🔍 Variable Detection
-* 🔍 Function Detection
-* 🏛 Class Detection
-* 📦 Import Analysis
-* 🔄 Execution Tracing
-* 💾 SQLite Storage
-* 📄 JSON Report Export
-* 🖥 Interactive CLI
-* 🎨 Textual UI
-* 📝 Centralized Logging
-* ⚠ Error Handling
+- 🌳 Abstract Syntax Tree (AST) Parsing
+- 🔍 Variable Assignment Detection
+- 📊 AST Node Counting
+- 🧠 Function & Class Detection
+- 🔄 Runtime Execution Tracing
+- 💾 SQLite Database Integration
+- 📄 JSON Report Generation
+- 🖥 Interactive Command Line Interface (CLI)
+- 🎨 Textual Terminal User Interface
+- 📝 Centralized Logging
+- ⚠ Error Handling
+- 📂 Modular Project Architecture
 
 ---
 
 # 🏗 Architecture
 
 ```text
-Python Source File
-        │
-        ▼
-AST Parser
-        │
-        ▼
-Static Analysis
-        │
-        ▼
-Execution Tracer
-        │
-        ▼
-SQLite Database
-        │
-        ▼
-JSON Report
-        │
-        ▼
-CLI / Textual UI
+             Python Source Code
+                     │
+                     ▼
+              AST Parser Engine
+                     │
+                     ▼
+          Static Code Analysis
+                     │
+                     ▼
+            Execution Tracer
+                     │
+                     ▼
+              SQLite Database
+                     │
+                     ▼
+          JSON Report Generator
+                     │
+                     ▼
+          CLI / Textual Interface
 ```
 
 ---
 
-# 🛠 Technologies Used
+# 🛠 Technology Stack
 
-| Technology  | Purpose              |
-| ----------- | -------------------- |
+| Technology | Purpose |
+|------------|---------|
 | Python 3.13 | Programming Language |
-| AST         | Static Analysis      |
-| SQLite3     | Database             |
-| JSON        | Report Export        |
-| pathlib     | File Handling        |
-| Rich        | CLI                  |
-| Textual     | Terminal UI          |
-| Loguru      | Logging              |
+| AST | Static Code Analysis |
+| SQLite | Database |
+| JSON | Report Export |
+| Rich | CLI Interface |
+| Textual | Terminal UI |
+| Loguru | Logging |
 
 ---
 
@@ -123,7 +87,6 @@ PyChronicle/
 │
 ├── src/
 │   ├── ast_parser.py
-│   ├── controller.py
 │   ├── database.py
 │   ├── logger.py
 │   ├── main.py
@@ -145,7 +108,7 @@ PyChronicle/
 Clone the repository
 
 ```bash
-git clone https://github.com/<username>/PyChronicle.git
+git clone https://github.com/sarveshdeshmukh96/PyChronicle.git
 ```
 
 Move into the project
@@ -160,7 +123,7 @@ Create a virtual environment
 python -m venv .venv
 ```
 
-Activate
+Activate the environment
 
 ### Windows
 
@@ -182,7 +145,7 @@ pip install -r requirements.txt
 
 ---
 
-# ▶ Usage
+# ▶ Running the Project
 
 Run CLI
 
@@ -202,37 +165,53 @@ python src/ui.py
 
 ```text
 Load Python File
-      │
-      ▼
+        │
+        ▼
 Parse AST
-      │
-      ▼
+        │
+        ▼
 Analyze Source Code
-      │
-      ▼
+        │
+        ▼
 Trace Execution
-      │
-      ▼
-Store in SQLite
-      │
-      ▼
+        │
+        ▼
+Store Results
+        │
+        ▼
 Generate JSON Report
-      │
-      ▼
-Interactive CLI
+        │
+        ▼
+Display via CLI / UI
 ```
 
 ---
 
-# 📊 Sample JSON
+# 📊 Supported AST Analysis
+
+- Variables
+- Functions
+- Classes
+- Imports
+- Loops
+- Conditional Statements
+- Assignments
+- Expressions
+- Binary Operations
+- Try / Except Blocks
+
+---
+
+# 📄 Sample JSON Output
 
 ```json
 {
   "file": "sample.py",
   "total_nodes": 84,
+  "assignments": 12,
   "functions": 3,
   "classes": 1,
-  "assignments": 12
+  "imports": 4
 }
 ```
 
@@ -240,40 +219,36 @@ Interactive CLI
 
 # 💾 Database
 
-Automatically creates
+PyChronicle stores execution history inside SQLite.
 
-```text
-pychronicle.db
-```
+Database Tables
 
-Tables
-
-* sessions
-* events
+- sessions
+- events
 
 ---
 
 # 📦 Dependencies
 
-* ast
-* sqlite3
-* pathlib
-* json
-* rich
-* textual
-* loguru
+- ast
+- sqlite3
+- json
+- pathlib
+- rich
+- textual
+- loguru
 
 ---
 
 # 🧪 Development
 
-Run tests
+Run Tests
 
 ```bash
 pytest
 ```
 
-Format code
+Format Code
 
 ```bash
 black .
@@ -287,76 +262,57 @@ flake8
 
 ---
 
-# 🛣 Roadmap
+# 🗺 Roadmap
 
-* ✅ AST Parser
-* ✅ Execution Tracing
-* ✅ SQLite Storage
-* ✅ JSON Export
-* ✅ Interactive CLI
-* ✅ Textual UI
-* ✅ Logging
-* ⏳ Time Travel Replay
-* ⏳ Graph Visualization
-* ⏳ GUI Dashboard
-* ⏳ Multi-file Analysis
+- ✅ AST Parsing
+- ✅ Variable Detection
+- ✅ Function Detection
+- ✅ AST Statistics
+- ✅ Runtime Tracing
+- ✅ SQLite Integration
+- ✅ JSON Reports
+- ✅ Interactive CLI
+- ✅ Textual UI
+- ✅ Logging
+- ⏳ Time Travel Replay
+- ⏳ Breakpoints
+- ⏳ Graph Visualization
+- ⏳ GUI Dashboard
+- ⏳ Multi-file Analysis
 
 ---
 
 # 🚀 Future Enhancements
 
-* Breakpoint Support
-* Interactive Debugger
-* Variable State Comparison
-* Call Graph Visualization
-* GUI Dashboard
-* CSV/PDF Export
-* Plugin System
-* Multi-file Analysis
+- Interactive Debugger
+- Breakpoint Support
+- GUI Dashboard
+- Performance Improvements
+- Plugin Support
+- PDF Report Export
+- CSV Report Export
+- Multi-file Analysis
+- Call Graph Visualization
 
 ---
 
-# 🤝 Team Contributions
+# 👥 Team
 
-## Sarvesh Deshmukh
-
-* Project Architecture
-* Controller
-* Textual UI
-
-## Santan Kumar
-
-* AST Parser
-* Interactive CLI
-* JSON Report Generation
-* Documentation
-* Logging
-
-## Yaduraj Singh Yadav
-
-* SQLite Database
-
-## Bheemsetti Vijayalaxmi
-
-* Execution Tracer
-
----
-
-# 👨‍💻 Team Members
-
-* Sarvesh Deshmukh
-* Santan Kumar
-* Yaduraj Singh Yadav
-* Bheemsetti Vijayalaxmi
+| Member | Contribution |
+|---------|--------------|
+| Sarvesh Deshmukh | Project Architecture, UI, Utilities |
+| Santan Kumar | AST Parser, CLI, JSON Reports, Documentation |
+| Yaduraj Singh Yadav | SQLite Database |
+| Bheemsetti Vijayalaxmi | Execution Tracing |
 
 ---
 
 # 🤝 Contributing
 
+Contributions are welcome.
+
 ```bash
 git checkout -b feature/new-feature
-
-git add .
 
 git commit -m "feat: add new feature"
 
@@ -367,22 +323,22 @@ Then create a Pull Request.
 
 ---
 
-# 🙏 Acknowledgements
-
-Thanks to the open-source community and the developers behind:
-
-* Python
-* AST
-* Rich
-* Textual
-* Loguru
-* SQLite
-
----
-
 # 📜 License
 
 This project is licensed under the **MIT License**.
+
+---
+
+# 🙏 Acknowledgements
+
+Special thanks to the Python open-source community and the maintainers of:
+
+- Python
+- AST
+- Rich
+- Textual
+- SQLite
+- Loguru
 
 ---
 
@@ -390,24 +346,15 @@ This project is licensed under the **MIT License**.
 
 **Santan Kumar**
 
-GitHub: https://github.com/Santan-kumar01
-
----
-
-# ⭐ Support
-
-If you found this project useful:
-
-* ⭐ Star the repository
-* 🍴 Fork the repository
-* 🐛 Report Issues
-* 💡 Suggest Features
+- GitHub: https://github.com/Santan-kumar01
+- LinkedIn: https://www.linkedin.com/in/santan-kumar/
+- Email: santank108@gmail.com
 
 ---
 
 <div align="center">
 
-## 🚀 Happy Coding!
+## ⭐ If you like this project, don't forget to Star the repository!
 
 **Built with ❤️ using Python**
 

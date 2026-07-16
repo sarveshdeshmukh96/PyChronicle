@@ -1,42 +1,51 @@
 """
 utils.py
 
-Common utility functions used across the PyChronicle project.
+Common utility functions used throughout the PyChronicle project.
 """
 
-from pathlib import Path
 import os
+import logging
+from pathlib import Path
+from datetime import datetime
+
+from rich.console import Console
+from rich.panel import Panel
+from rich.table import Table
+
+console = Console()
+
+# =====================================================
+# Logging Configuration
+# =====================================================
+
+logging.basicConfig(
+    filename="pychronicle.log",
+    level=logging.INFO,
+    format="%(asctime)s | %(levelname)s | %(message)s",
+)
+
+logger = logging.getLogger("PyChronicle")
 
 
-def print_separator():
-    """Print a separator line."""
-    print("=" * 60)
+def log_info(message: str):
+    """Log informational messages."""
+    logger.info(message)
 
 
-def print_header(title: str):
-    """Print a formatted header."""
-    print_separator()
-    print(title.center(60))
-    print_separator()
+def log_warning(message: str):
+    """Log warning messages."""
+    logger.warning(message)
 
 
-def validate_python_file(file_path: str) -> bool:
-    """
-    Validate whether the given file exists
-    and has a .py extension.
-    """
-    path = Path(file_path)
+def log_error(message: str):
+    """Log error messages."""
+    logger.error(message)
 
-    if not path.exists():
-        print("Error: File does not exist.")
-        return False
 
-    if path.suffix != ".py":
-        print("Error: Please select a Python (.py) file.")
-        return False
-
-    return True
-
+# =====================================================
+# Terminal Utilities
+# =====================================================
 
 def clear_screen():
     """Clear the terminal screen."""
@@ -44,15 +53,125 @@ def clear_screen():
 
 
 def pause():
-    """Pause program execution."""
+    """Pause execution."""
     input("\nPress Enter to continue...")
 
 
-def format_status(message: str, status: str = "INFO"):
-    """
-    Display a formatted status message.
+def separator():
+    console.rule("[bold cyan]PyChronicle")
 
-    Example:
-    [INFO] File Loaded Successfully
-    """
-    print(f"[{status}] {message}")
+
+def banner():
+    """Display application banner."""
+    console.print(
+        Panel.fit(
+            "[bold cyan]🚀 PyChronicle[/bold cyan]\n"
+            "AST Powered Time-Travel Debugger",
+            border_style="bright_blue",
+        )
+    )
+
+
+# =====================================================
+# File Utilities
+# =====================================================
+
+def validate_python_file(file_path: str) -> bool:
+    """Validate a Python source file."""
+
+    file = Path(file_path)
+
+    if not file.exists():
+        show_error("File not found.")
+        log_error(f"File not found: {file_path}")
+        return False
+
+    if file.suffix != ".py":
+        show_error("Please select a Python (.py) file.")
+        log_warning(f"Invalid file type selected: {file_path}")
+        return False
+
+    log_info(f"Validated Python file: {file_path}")
+    return True
+
+
+def read_python_file(file_path: str) -> str:
+    """Read Python file."""
+
+    log_info(f"Reading file: {file_path}")
+
+    with open(file_path, "r", encoding="utf-8") as file:
+        return file.read()
+
+
+# =====================================================
+# Message Utilities
+# =====================================================
+
+def show_success(message: str):
+    console.print(f"[bold green]✔ {message}[/bold green]")
+    log_info(message)
+
+
+def show_error(message: str):
+    console.print(f"[bold red]✘ {message}[/bold red]")
+    log_error(message)
+
+
+def show_info(message: str):
+    console.print(f"[bold cyan]ℹ {message}[/bold cyan]")
+    log_info(message)
+
+
+# =====================================================
+# Database Display
+# =====================================================
+
+def print_sessions(sessions):
+    table = Table(title="Execution Sessions")
+
+    table.add_column("ID", style="cyan")
+    table.add_column("File")
+    table.add_column("Run Time", style="green")
+
+    for row in sessions:
+        table.add_row(
+            str(row["id"]),
+            row["file_name"],
+            row["run_at"]
+        )
+
+    console.print(table)
+
+
+def print_events(events):
+    table = Table(title="Execution Events")
+
+    table.add_column("ID")
+    table.add_column("Function")
+    table.add_column("Line")
+    table.add_column("Event")
+
+    for row in events:
+        table.add_row(
+            str(row["id"]),
+            row["function_name"],
+            str(row["line_no"]),
+            row["event_type"]
+        )
+
+    console.print(table)
+
+
+# =====================================================
+# Miscellaneous
+# =====================================================
+
+def current_time():
+    return datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+
+
+if __name__ == "__main__":
+    banner()
+    show_success("Utilities Loaded Successfully")
+    show_info(current_time())

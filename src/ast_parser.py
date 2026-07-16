@@ -1,124 +1,167 @@
 import ast
 import json
 from pathlib import Path
+from collections import Counter
+
+from utils import log_info, log_error
 
 
 class ASTParser:
-    """Simple AST Explorer"""
+    """PyChronicle AST Parser"""
 
     def __init__(self, file_path: str):
         self.file_path = Path(file_path)
+        self.tree = None
 
-    def read_source(self) -> str:
-        """Read source code from a Python file."""
+    def read_source(self):
+        """Read Python source file."""
+
         if not self.file_path.exists():
-            raise FileNotFoundError(f"File not found: {self.file_path}")
+            log_error(f"File not found: {self.file_path}")
+            raise FileNotFoundError(self.file_path)
 
-        with open(self.file_path, "r", encoding="utf-8") as file:
-            return file.read()
+        log_info(f"Reading source file: {self.file_path}")
+        return self.file_path.read_text(encoding="utf-8")
 
     def parse(self):
-        """Parse source code into an AST."""
-        source_code = self.read_source()
-        return ast.parse(source_code)
+        """Parse Python source into AST."""
+
+        try:
+            log_info(f"Parsing AST: {self.file_path}")
+
+            source = self.read_source()
+
+            self.tree = ast.parse(source)
+
+            log_info("AST parsed successfully.")
+
+            return self.tree
+
+        except SyntaxError as e:
+            log_error(f"Syntax Error: {e}")
+            raise
+
+        except FileNotFoundError as e:
+            log_error(f"File not found: {e}")
+            raise
+
+        except Exception as e:
+            log_error(f"Unexpected Error: {e}")
+            raise
 
     def print_ast(self):
-        """Print formatted AST."""
-        tree = self.parse()
-        print("=" * 60)
-        print("Abstract Syntax Tree")
-        print("=" * 60)
-        print(ast.dump(tree, indent=4))
+        """Print AST."""
 
-    def walk_ast(self):
-        """Walk through every AST node."""
-        tree = self.parse()
+        if self.tree is None:
+            self.parse()
 
-        print("\n" + "=" * 60)
-        print("AST Nodes")
-        print("=" * 60)
+        print(ast.dump(self.tree, indent=4))
 
-        for node in ast.walk(tree):
-            print(type(node).__name__)
+    def get_statistics(self):
+        """Generate AST statistics."""
 
-    def detect_assignments(self):
-        """Detect variable assignments."""
-        tree = self.parse()
+        if self.tree is None:
+            self.parse()
 
-        print("\n" + "=" * 60)
-        print("Variable Assignments")
-        print("=" * 60)
-
-        for node in ast.walk(tree):
-            if isinstance(node, ast.Assign):
-                for target in node.targets:
-                    if isinstance(target, ast.Name):
-                        print(f"Variable: {target.id}")
-
-                        if isinstance(node.value, ast.Constant):
-                            print(f"Value: {node.value.value}")
-
-                        elif isinstance(node.value, ast.BinOp):
-                            print("Value: Binary Operation")
-
-                        else:
-                            print(f"Value Type: {type(node.value).__name__}")
-
-                        print("-" * 30)
-
-    def count_nodes(self):
-        """Count total AST nodes."""
-        tree = self.parse()
-
-        total_nodes = sum(1 for _ in ast.walk(tree))
-
-        print("\n" + "=" * 60)
-        print("AST Statistics")
-        print("=" * 60)
-        print(f"Total AST Nodes: {total_nodes}")
-    
-    def export_report(self, filename="analysis_report.json"):
-        """Export AST analysis report to JSON."""
-
-        tree = self.parse()
+        stats = Counter()
 
         assignments = []
+        functions = []
+        classes = []
+        imports = []
 
-        for node in ast.walk(tree):
+        for node in ast.walk(self.tree):
+
+            stats[type(node).__name__] += 1
+
             if isinstance(node, ast.Assign):
                 for target in node.targets:
                     if isinstance(target, ast.Name):
+                        assignments.append(target.id)
 
-                        if isinstance(node.value, ast.Constant):
-                            value = node.value.value
+            elif isinstance(node, ast.FunctionDef):
+                functions.append(node.name)
 
-                        elif isinstance(node.value, ast.BinOp):
-                            value = "Binary Operation"
+            elif isinstance(node, ast.ClassDef):
+                classes.append(node.name)
 
-                        else:
-                            value = type(node.value).__name__
+            elif isinstance(node, ast.Import):
+                for alias in node.names:
+                    imports.append(alias.name)
 
-                        assignments.append({
-                            "variable": target.id,
-                            "value": value
-                        })
+            elif isinstance(node, ast.ImportFrom):
+                imports.append(node.module)
 
         report = {
             "file": str(self.file_path),
-            "total_nodes": sum(1 for _ in ast.walk(tree)),
-            "assignments": assignments
+            "total_nodes": sum(stats.values()),
+            "functions": functions,
+            "classes": classes,
+            "imports": imports,
+            "assignments": assignments,
+            "node_statistics": dict(stats),
         }
 
-        with open(filename, "w", encoding="utf-8") as f:
-            json.dump(report, f, indent=4)
+        log_info("AST statistics generated.")
 
-        print(f"\nReport exported successfully -> {filename}")
-        
+        return report
+
+    def print_report(self):
+        """Display AST report."""
+
+        report = self.get_statistics()
+
+        print("\n" + "=" * 60)
+        print("PyChronicle AST Report")
+        print("=" * 60)
+
+        print(f"File : {report['file']}")
+        print(f"Total Nodes : {report['total_nodes']}")
+        print(f"Functions : {len(report['functions'])}")
+        print(f"Classes : {len(report['classes'])}")
+        print(f"Imports : {len(report['imports'])}")
+        print(f"Assignments : {len(report['assignments'])}")
+
+        print("\nFunction Names")
+        for function in report["functions"]:
+            print("-", function)
+
+        print("\nClass Names")
+        for cls in report["classes"]:
+            print("-", cls)
+
+        print("\nImports")
+        for module in report["imports"]:
+            print("-", module)
+
+        print("\nVariables")
+        for variable in report["assignments"]:
+            print("-", variable)
+
+        log_info("AST report displayed.")
+
+    def export_json(self, filename="analysis_report.json"):
+        """Export analysis report to JSON."""
+
+        try:
+            report = self.get_statistics()
+
+            with open(filename, "w", encoding="utf-8") as file:
+                json.dump(report, file, indent=4)
+
+            log_info(f"JSON report exported successfully: {filename}")
+
+        except Exception as e:
+            log_error(f"Failed to export JSON report: {e}")
+            raise
+
+
 if __name__ == "__main__":
+
     parser = ASTParser("sample_programs/sample.py")
 
-    parser.print_ast()
-    parser.walk_ast()
-    parser.detect_assignments()
-    parser.count_nodes()
-    parser.export_report()
+    parser.parse()
+
+    parser.print_report()
+
+    parser.export_json()
