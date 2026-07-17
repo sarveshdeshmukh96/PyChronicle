@@ -3,8 +3,7 @@ import json
 from pathlib import Path
 from collections import Counter
 
-from utils import log_info, log_error
-
+from src.utils import log_info, log_error
 
 class ASTParser:
     """PyChronicle AST Parser"""
