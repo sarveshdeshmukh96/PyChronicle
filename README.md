@@ -352,6 +352,26 @@ Special thanks to the Python open-source community and the maintainers of:
 
 ---
 
+## Running Tests
+
+Run all tests:
+
+```bash
+pytest
+```
+
+Run AST parser tests:
+
+```bash
+pytest tests/test_ast_parser.py -v
+```
+
+Run database tests:
+
+```bash
+pytest tests/test_database.py -v
+```
+
 <div align="center">
 
 ## ⭐ If you like this project, don't forget to Star the repository!
