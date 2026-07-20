@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from controller import PyChronicleController
-from utils import (
+from src.controller import PyChronicleController
+from src.utils import (
     banner,
     clear_screen,
     pause,

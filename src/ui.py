@@ -2,8 +2,7 @@ from textual.app import App, ComposeResult
 from textual.containers import Vertical
 from textual.widgets import Header, Footer, Button, Static
 
-from controller import PyChronicleController
-
+from src.controller import PyChronicleController
 
 class PyChronicleUI(App):
     """PyChronicle Graphical User Interface"""

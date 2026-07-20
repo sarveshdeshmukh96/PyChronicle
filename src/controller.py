@@ -1,6 +1,6 @@
-from ast_parser import ASTParser
-from tracer import Tracer
-from database import Database
+from src.ast_parser import ASTParser
+from src.database import Database
+from src.tracer import Tracer
 
 
 class PyChronicleController:
