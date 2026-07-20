@@ -2,7 +2,7 @@ import sys
 import time
 from pathlib import Path
 
-from database import Database
+from src.database import Database
 from loguru import logger
 from tqdm import tqdm
 
