@@ -372,6 +372,24 @@ Run database tests:
 pytest tests/test_database.py -v
 ```
 
+## Troubleshooting
+
+### Common Issues
+
+- Ensure Python 3.13 or later is installed.
+- Activate the virtual environment before running commands.
+- Install dependencies using:
+
+```bash
+pip install -r requirements.txt
+```
+
+- Run tests using:
+
+```bash
+pytest -v
+```
+
 <div align="center">
 
 ## ⭐ If you like this project, don't forget to Star the repository!
