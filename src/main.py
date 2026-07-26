@@ -53,6 +53,7 @@ def run_complete_analysis(parser):
 
 
 def main():
+<<<<<<< HEAD
     clear_screen()
 
     print("=" * 60)
@@ -106,6 +107,16 @@ def main():
         except Exception as e:
             print(f"\nAn error occurred: {e}")
             pause()
+=======
+    try:
+        print("=" * 40)
+        print("Welcome to PyChronicle")
+        print("=" * 40)
+        print("Project started successfully.")
+
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+>>>>>>> f6fa09f (Add basic exception handling to main entry point)
 
 
 if __name__ == "__main__":
