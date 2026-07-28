@@ -23,10 +23,20 @@ def test_load_file_overwrites_previous_path():
 
     assert controller.file_path == "second.py"
 
+
 def test_load_file_accepts_empty_path():
     controller = PyChronicleController()
 
     result = controller.load_file("")
 
     assert result is True
-    assert controller.file_path == ""    
+    assert controller.file_path == ""
+
+def test_load_file_updates_path_after_empty_path():
+    controller = PyChronicleController()
+
+    controller.load_file("")
+    result = controller.load_file("sample_programs/sample.py")
+
+    assert result is True
+    assert controller.file_path == "sample_programs/sample.py"
