@@ -32,6 +32,7 @@ def test_load_file_accepts_empty_path():
     assert result is True
     assert controller.file_path == ""
 
+
 def test_load_file_updates_path_after_empty_path():
     controller = PyChronicleController()
 
@@ -39,4 +40,15 @@ def test_load_file_updates_path_after_empty_path():
     result = controller.load_file("sample_programs/sample.py")
 
     assert result is True
+    assert controller.file_path == "sample_programs/sample.py"
+
+
+def test_load_same_file_multiple_times():
+    controller = PyChronicleController()
+
+    first = controller.load_file("sample_programs/sample.py")
+    second = controller.load_file("sample_programs/sample.py")
+
+    assert first is True
+    assert second is True
     assert controller.file_path == "sample_programs/sample.py"
