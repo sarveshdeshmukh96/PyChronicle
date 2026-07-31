@@ -54,10 +54,17 @@ def test_load_same_file_multiple_times():
     assert controller.file_path == "sample_programs/sample.py"
 
 
-# New test
 def test_load_file_returns_boolean():
     controller = PyChronicleController()
 
     result = controller.load_file("sample_programs/sample.py")
 
     assert isinstance(result, bool)
+
+
+def test_controller_file_path_is_string():
+    controller = PyChronicleController()
+
+    controller.load_file("sample_programs/sample.py")
+
+    assert isinstance(controller.file_path, str)
