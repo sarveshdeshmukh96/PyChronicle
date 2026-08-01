@@ -371,6 +371,63 @@ Run database tests:
 ```bash
 pytest tests/test_database.py -v
 ```
+## Testing Workflow
+
+Before creating a Pull Request, verify that the project is working correctly.
+
+### Run all tests
+
+```bash
+pytest -v
+```
+
+### Run a specific test file
+
+```bash
+pytest tests/test_integration.py -v
+```
+
+### Run controller tests
+
+```bash
+pytest tests/test_controller.py -v
+```
+
+### Check code formatting
+
+```bash
+black --check .
+```
+
+### Run lint checks
+
+```bash
+flake8
+```
+
+All tests should pass successfully before pushing changes to the remote repository.
+
+---
+
+## Environment Verification
+
+Verify your Python version:
+
+```bash
+python --version
+```
+
+Expected:
+
+```text
+Python 3.13.x
+```
+
+If dependencies are missing or corrupted, reinstall them:
+
+```bash
+pip install --upgrade -r requirements.txt
+```
 
 ## Troubleshooting
 
