@@ -23,3 +23,11 @@ def test_controller_updates_file_path():
 
     assert result is True
     assert controller.file_path == "sample_programs/sample.py"
+
+
+def test_load_file_returns_boolean():
+    controller = PyChronicleController()
+
+    result = controller.load_file("sample_programs/sample.py")
+
+    assert isinstance(result, bool)
