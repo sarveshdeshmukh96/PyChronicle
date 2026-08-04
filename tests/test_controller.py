@@ -25,9 +25,12 @@ def test_controller_updates_file_path():
     assert controller.file_path == "sample_programs/sample.py"
 
 
-def test_load_file_returns_boolean():
+# New test for initialization edge case
+def test_controller_can_load_empty_then_valid_file():
     controller = PyChronicleController()
 
+    controller.load_file("")
     result = controller.load_file("sample_programs/sample.py")
 
-    assert isinstance(result, bool)
+    assert result is True
+    assert controller.file_path == "sample_programs/sample.py"
