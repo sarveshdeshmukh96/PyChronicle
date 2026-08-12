@@ -28,16 +28,18 @@ def print_menu():
 
 def get_python_file():
     while True:
-        file_path = input("\nEnter Python file path (or 'q' to quit): ").strip()
+        file_path = input(
+            "\nEnter Python file path (or 'q' to quit): "
+        ).strip()
 
         if file_path.lower() == "q":
             print("\nExiting PyChronicle...")
-            exit()
+            return None
 
         if Path(file_path).exists():
             return file_path
 
-        print("File not found. Please enter a valid Python file.")
+        print("File not found. Please enter a valid file.")
 
 
 def run_complete_analysis(parser):
@@ -53,7 +55,6 @@ def run_complete_analysis(parser):
 
 
 def main():
-<<<<<<< HEAD
     clear_screen()
 
     print("=" * 60)
@@ -61,62 +62,64 @@ def main():
     print("   AST Powered Time-Travel Debugger")
     print("=" * 60)
 
-    file_path = get_python_file()
-    parser = ASTParser(file_path)
-
-    while True:
-        clear_screen()
-        print_menu()
-
-        choice = input("Select an option: ").strip()
-
-        try:
-            if choice == "1":
-                parser.print_ast()
-                pause()
-
-            elif choice == "2":
-                parser.walk_ast()
-                pause()
-
-            elif choice == "3":
-                parser.detect_assignments()
-                pause()
-
-            elif choice == "4":
-                parser.count_nodes()
-                pause()
-
-            elif choice == "5":
-                parser.export_report()
-                pause()
-
-            elif choice == "6":
-                run_complete_analysis(parser)
-                pause()
-
-            elif choice == "0":
-                print("\nThank you for using PyChronicle.")
-                print("Goodbye!")
-                break
-
-            else:
-                print("\nInvalid option. Please select a number between 0 and 6.")
-                pause()
-
-        except Exception as e:
-            print(f"\nAn error occurred: {e}")
-            pause()
-=======
     try:
-        print("=" * 40)
-        print("Welcome to PyChronicle")
-        print("=" * 40)
-        print("Project started successfully.")
+        file_path = get_python_file()
+
+        if file_path is None:
+            return
+
+        parser = ASTParser(file_path)
+
+        while True:
+            clear_screen()
+            print_menu()
+
+            choice = input("Select an option: ").strip()
+
+            try:
+                if choice == "1":
+                    parser.print_ast()
+                    pause()
+
+                elif choice == "2":
+                    parser.walk_ast()
+                    pause()
+
+                elif choice == "3":
+                    parser.detect_assignments()
+                    pause()
+
+                elif choice == "4":
+                    parser.count_nodes()
+                    pause()
+
+                elif choice == "5":
+                    parser.export_report()
+                    pause()
+
+                elif choice == "6":
+                    run_complete_analysis(parser)
+                    pause()
+
+                elif choice == "0":
+                    print("\nThank you for using PyChronicle.")
+                    print("Goodbye!")
+                    break
+
+                else:
+                    print(
+                        "\nInvalid option. "
+                        "Please select a number between 0 and 6."
+                    )
+                    pause()
+
+            except Exception as e:
+                print(f"\nAn error occurred: {e}")
+                pause()
 
     except Exception as e:
-        print(f"An unexpected error occurred: {e}")
->>>>>>> f6fa09f (Add basic exception handling to main entry point)
+        print(f"\nUnable to start PyChronicle: {e}")
+        pause()
 
 
 if __name__ == "__main__":
